@@ -1,6 +1,10 @@
 package com.mateusmendanha.springboot.resources;
 
 import com.mateusmendanha.springboot.domain.Categoria;
+import com.mateusmendanha.springboot.service.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,20 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping (value = "/categorias")
+@RequestMapping(value = "/categorias")
 
 public class CategoriaResource {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List <Categoria> listar() {
+    @Autowired
+    private CategoriaService service;
 
-        Categoria cat1 = new Categoria(1,"informatica");
-        Categoria cat2 = new Categoria(2,"escritorio");
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
 
-        List<Categoria> lista = new ArrayList<>();
-        lista.add(cat1);
-        lista.add(cat2);
+    public ResponseEntity<?> encontrar (@PathVariable Integer id) {
 
-        return lista;
+        Categoria obj = service.buscar(id);
+        return ResponseEntity.ok().body(obj);
+
     }
 }
