@@ -1,6 +1,7 @@
 package com.mateusmendanha.springboot;
 
 import com.mateusmendanha.springboot.domain.*;
+import com.mateusmendanha.springboot.domain.enums.EstadoPagamento;
 import com.mateusmendanha.springboot.domain.enums.TipoCliente;
 import com.mateusmendanha.springboot.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -30,6 +32,12 @@ public class SpringbootApplication implements CommandLineRunner {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootApplication.class, args);
@@ -79,5 +87,22 @@ public class SpringbootApplication implements CommandLineRunner {
         clienteRepository.saveAll(Arrays.asList(cl1));
         enderecoRepository.saveAll(Arrays.asList(end1, end2));
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        Pedido ped1 = new Pedido(null, sdf.parse("30/09/2020 22:45"), cl1, end1);
+
+        Pedido ped2 = new Pedido(null, sdf.parse("03/04/2020 12:15"), cl1, end2);
+
+        Pagamento pgto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+        ped1.setPagamento(pgto1);
+
+        Pagamento pgto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("05/04/2020 23:59"),null);
+        ped2.setPagamento(pgto2);
+
+        cl1.getPedidos().addAll(Arrays.asList(ped1,ped2));
+
+        pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+
+        pagamentoRepository.saveAll(Arrays.asList(pgto1, pgto2));
     }
 }
