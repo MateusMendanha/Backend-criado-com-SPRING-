@@ -1,7 +1,6 @@
 package com.mateusmendanha.springboot.domain;
 
 import com.mateusmendanha.springboot.domain.enums.EstadoPagamento;
-
 import javax.persistence.Entity;
 
 @Entity

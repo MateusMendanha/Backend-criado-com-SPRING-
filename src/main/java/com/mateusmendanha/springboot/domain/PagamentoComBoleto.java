@@ -2,7 +2,6 @@ package com.mateusmendanha.springboot.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mateusmendanha.springboot.domain.enums.EstadoPagamento;
-
 import javax.persistence.Entity;
 import java.util.Date;
 

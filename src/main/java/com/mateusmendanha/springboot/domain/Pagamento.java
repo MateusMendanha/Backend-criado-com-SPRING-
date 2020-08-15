@@ -1,8 +1,7 @@
 package com.mateusmendanha.springboot.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mateusmendanha.springboot.domain.enums.EstadoPagamento;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,7 +15,7 @@ public abstract class Pagamento implements Serializable {
     private Integer id;
     private Integer estado;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId
